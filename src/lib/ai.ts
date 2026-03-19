@@ -1,5 +1,5 @@
 // AI streaming helper for the FORJA app
-const AI_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-coach`;
+const AI_URL = '/api/ai-coach';
 
 export interface AIMessage {
   role: 'user' | 'assistant';
@@ -24,7 +24,6 @@ export async function streamAI({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
       },
       body: JSON.stringify({ messages, context }),
     });
