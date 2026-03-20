@@ -6,11 +6,12 @@ FORJA is a volleyball coaching and athlete performance management application bu
 ## Architecture
 
 ### Stack
-- **Frontend**: React 18 + TypeScript + Vite
+- **Frontend**: React 18 + TypeScript + Vite (port 5000)
+- **Backend**: Express server (port 3000) — serves AI coach API
 - **Styling**: Tailwind CSS + shadcn/ui components
 - **State**: React Context + localStorage persistence
 - **Routing**: React Router v6
-- **AI**: Supabase Edge Functions (ai-coach)
+- **AI**: OpenAI GPT-4o-mini via Express server route `/api/ai-coach`
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 
@@ -18,9 +19,10 @@ FORJA is a volleyball coaching and athlete performance management application bu
 - `src/lib/types.ts` — All TypeScript types and data models
 - `src/lib/context.tsx` — Global state management (AppProvider + useApp hook)
 - `src/lib/store.ts` — localStorage persistence layer
-- `src/lib/ai.ts` — AI streaming helper for Supabase edge function
+- `src/lib/ai.ts` — AI streaming helper (calls `/api/ai-coach`)
 - `src/App.tsx` — Routing configuration
 - `src/components/AppLayout.tsx` — Main layout wrapper (TopBar + Sidebar)
+- `server/index.ts` — Express server: proxies AI requests to OpenAI with streaming
 
 ### Data Storage
 All data is stored in `localStorage` under the key `forja_data` as an `AppData` object.
@@ -80,10 +82,9 @@ All data is stored in `localStorage` under the key `forja_data` as an `AppData` 
 
 ## Development
 ```bash
-npm run dev    # Start dev server on port 5000
-npm run build  # Production build
+npm run dev     # Start Vite dev server on port 5000
+npm run server  # Start Express server on port 3000
 ```
 
 ## Environment Variables
-- `VITE_SUPABASE_URL` — Supabase project URL
-- `VITE_SUPABASE_PUBLISHABLE_KEY` — Supabase anon key
+- `OPENAI_API_KEY` — OpenAI API key (required for AI coach feature)
